@@ -5,6 +5,7 @@ const port = 3000
 const exphbs = require('express-handlebars')
 const restaurantList = require('./restaurant.json')
 const mongoose = require('mongoose') // 載入mongoose
+const Restaurant = require('./models/restaurant') // 載入restaurant model
 
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true }) // 設定連線到mongoDB
 
@@ -28,8 +29,10 @@ app.use(express.static('public'))
 
 // routes setting
 app.get('/', (req, res) => {
-  // render the index.handlebars to broswer
-  res.render('index', { restaurants: restaurantList.results })
+  Restaurant.find()
+    .lean()
+    .then(restaurants => res.render('index', { restaurants: restaurants }))
+    .catch(error => console.error(error))
 })
 
 app.get('/restaurants/:restaurant_id', (req, res) => {
