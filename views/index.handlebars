@@ -60,6 +60,9 @@
             detail
           </button>
         </a>
+        <form action="./restaurants/{{ this._id }}/delete" method="POST" style="display: inline;">
+          <button type="submit" class="btn btn-outline-info btn-sm">delete</button>
+        </form>
       </div>
       {{/each}}
 
