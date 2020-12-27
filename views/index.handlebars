@@ -37,6 +37,17 @@
 
   <!-- restaurant list -->
   <div class="container">
+    <div class="d-flex justify-content-end mb-3">
+      <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          Sort
+        </button>
+        <ul class="dropdown-menu">
+          A-Z
+        </ul>
+      </div>
+    </div>
     <div class="row">
       {{#each restaurants}}
       <div class="col-3 card mb-3">
