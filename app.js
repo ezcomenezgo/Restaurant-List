@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const restaurantList = require('./restaurant.json')
 const mongoose = require('mongoose') // 載入mongoose
 const Restaurant = require('./models/restaurant') // 載入restaurant model
+const methodOverride = require('method-override') // 載入method-override
 
 mongoose.connect('mongodb://localhost/restaurant-list', { useNewUrlParser: true, useUnifiedTopology: true }) // 設定連線到mongoDB
 
@@ -28,6 +29,7 @@ app.set('view engine', 'handlebars')
 // setting static files
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 // routes setting
 app.get('/', (req, res) => {
@@ -41,14 +43,6 @@ app.get('/restaurants/new', (req, res) => {
   return res.render('new')
 })
 
-app.get('/restaurants/:id', (req, res) => {
-  const id = req.params.id
-  return Restaurant.findById(id)
-    .lean()
-    .then((restaurant) => res.render('show', { restaurant }))
-    .catch(error => console.log(error))
-
-})
 
 app.get('/search', (req, res) => {
   const keyword = req.query.keyword
@@ -75,7 +69,7 @@ app.post('/restaurants', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.post('/restaurants/:id/edit', (req, res) => {
+app.put('/restaurants/:id', (req, res) => {
   const id = req.params.id
   console.log(id)
   const name = req.body.name
@@ -104,11 +98,19 @@ app.post('/restaurants/:id/edit', (req, res) => {
     .catch(error => console.log(error))
 })
 
-app.get('/restaurants/:id/delete', (req, res) => {
+app.delete('/restaurants/:id', (req, res) => {
   const id = req.params.id
   return Restaurant.findById(id)
     .then(restaurant => restaurant.remove())
     .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+app.get('/restaurants/:id', (req, res) => {
+  const id = req.params.id
+  return Restaurant.findById(id)
+    .lean()
+    .then((restaurant) => res.render('show', { restaurant }))
     .catch(error => console.log(error))
 })
 

@@ -55,7 +55,7 @@
 
       <a href="/restaurants/{{ restaurant._id }}/edit">edit</a>
 
-      <form action="/restaurants/{{ restaurant._id }}/delete" method="GET" style="display: inline;">
+      <form action="/restaurants/{{ restaurant._id }}?_method=DELETE" method="POST" style="display: inline;">
         <button type="submit" class="btn btn-outline-info btn-sm">delete</button>
       </form>
     </div>
